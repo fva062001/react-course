@@ -1,13 +1,16 @@
 import React, {useState} from "react";
-import ExpenseItem from "./ExpenseItem";
 import './Expenses.css'
 import Card from "../UI/Card";
 import ExpensesFiler from "./ExpensesFilter";
+import ExpensesList from "./ExpensesList";
+import ExpensesChart from "./ExpensesChart";
 
 function Expenses(props){
 
-
+    // - Variables
     const [filteredYear, setFilteredYear] = useState('2020');
+
+    // - Functions
     const onSelectedFilter = (selectedYear) =>{
       setFilteredYear(selectedYear);
     };
@@ -16,17 +19,13 @@ function Expenses(props){
       return expense.date.getFullYear() === parseInt(filteredYear);
     });
 
+
+
     return(
       <Card className="expenses">
         <ExpensesFiler selected={filteredYear} onSelectedFilter={onSelectedFilter}/>
-          {filteredExpenses.map(expense =>
-            <ExpenseItem 
-              key={expense.id}
-              title={expense.title} 
-              amount={expense.amount} 
-              date={expense.date}
-            />
-          )}
+        <ExpensesChart expenses={filteredExpenses}/>
+        <ExpensesList items={filteredExpenses}/>
       </Card>
     );
 }
